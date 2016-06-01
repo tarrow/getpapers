@@ -39,6 +39,10 @@ program
     'save log to specified file in output directory as well as printing to terminal')
   .option('-k, --limit <int>',
     'limit the number of hits and downloads')
+  .option('--filter-from-index-date <date>',
+    'filter only papers indexed after date')
+  .option('--filter-until-index-date <date>',
+    'filter only papers indexed before date')
   .parse(process.argv)
 
 if (!process.argv.slice(2).length) {
@@ -81,7 +85,7 @@ if (program.hasOwnProperty('logfile')) {
 
 // check arguments
 
-if (!program.query) {
+if (!program.query && !program.api==='crossref') {
   log.error('No query given. ' +
     'You must provide the --query argument.')
   process.exit(1)
@@ -99,6 +103,9 @@ options.minedterms = program.minedterms
 options.all = program.all
 options.hitlimit = parseInt(program.limit)
 options.noexecute = program.noexecute
+options.filterFromIndexDate = program.filterFromIndexDate
+options.filterUntilIndexDate = program.filterUntilIndexDate
+
 if (options.noexecute) {
   log.info('Running in no-execute mode, so nothing will be downloaded')
 } else {
