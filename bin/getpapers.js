@@ -40,9 +40,13 @@ program
   .option('-k, --limit <int>',
     'limit the number of hits and downloads')
   .option('--filter-from-index-date <date>',
-    'filter only papers indexed after date')
+    'filter only papers indexed after date (inclusive)')
   .option('--filter-until-index-date <date>',
-    'filter only papers indexed before date')
+    'filter only papers indexed before date (inclusive)')
+    .option('--filter-from-pub-date <date>',
+      'filter only papers published after date (inclusive)')
+    .option('--filter-until-pub-date <date>',
+      'filter only papers published before date (inclusive)')
   .parse(process.argv)
 
 if (!process.argv.slice(2).length) {
@@ -105,6 +109,8 @@ options.hitlimit = parseInt(program.limit)
 options.noexecute = program.noexecute
 options.filterFromIndexDate = program.filterFromIndexDate
 options.filterUntilIndexDate = program.filterUntilIndexDate
+options.filterFromPubDate = program.filterFromPubDate
+options.filterUntilPubDate = program.filterUntilPubDate
 
 if (options.noexecute) {
   log.info('Running in no-execute mode, so nothing will be downloaded')
