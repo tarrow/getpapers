@@ -43,10 +43,14 @@ program
     'filter only papers indexed after date (inclusive)')
   .option('--filter-until-index-date <date>',
     'filter only papers indexed before date (inclusive)')
-    .option('--filter-from-pub-date <date>',
-      'filter only papers published after date (inclusive)')
-    .option('--filter-until-pub-date <date>',
-      'filter only papers published before date (inclusive)')
+  .option('--filter-from-pub-date <date>',
+    'filter only papers published after date (inclusive)')
+  .option('--filter-until-pub-date <date>',
+    'filter only papers published before date (inclusive)')
+  .option('--filter-until-created-date <date>',
+    'filter only papers created before date (inclusive)')
+  .option('--filter-from-created-date <date>',
+    'filter only papers created from date (inclusive)')
   .parse(process.argv)
 
 if (!process.argv.slice(2).length) {
@@ -111,6 +115,8 @@ options.filterFromIndexDate = program.filterFromIndexDate
 options.filterUntilIndexDate = program.filterUntilIndexDate
 options.filterFromPubDate = program.filterFromPubDate
 options.filterUntilPubDate = program.filterUntilPubDate
+options.filterUntilCreatedDate = program.filterUntilCreatedDate
+options.filterFromCreatedDate = program.filterFromCreatedDate
 
 if (options.noexecute) {
   log.info('Running in no-execute mode, so nothing will be downloaded')
