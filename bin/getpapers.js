@@ -51,6 +51,8 @@ program
     'filter only papers created before date (inclusive)')
   .option('--filter-from-created-date <date>',
     'filter only papers created from date (inclusive)')
+  .option('--filter <filter object>',
+    'filter by key value pair, passed straight to the crossref api')
   .parse(process.argv)
 
 if (!process.argv.slice(2).length) {
@@ -117,6 +119,7 @@ options.filterFromPubDate = program.filterFromPubDate
 options.filterUntilPubDate = program.filterUntilPubDate
 options.filterUntilCreatedDate = program.filterUntilCreatedDate
 options.filterFromCreatedDate = program.filterFromCreatedDate
+options.filter = program.filter
 
 if (options.noexecute) {
   log.info('Running in no-execute mode, so nothing will be downloaded')
