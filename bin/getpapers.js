@@ -39,20 +39,8 @@ program
     'save log to specified file in output directory as well as printing to terminal')
   .option('-k, --limit <int>',
     'limit the number of hits and downloads')
-  .option('--filter-from-index-date <date>',
-    'filter only papers indexed after date (inclusive)')
-  .option('--filter-until-index-date <date>',
-    'filter only papers indexed before date (inclusive)')
-  .option('--filter-from-pub-date <date>',
-    'filter only papers published after date (inclusive)')
-  .option('--filter-until-pub-date <date>',
-    'filter only papers published before date (inclusive)')
-  .option('--filter-until-created-date <date>',
-    'filter only papers created before date (inclusive)')
-  .option('--filter-from-created-date <date>',
-    'filter only papers created from date (inclusive)')
   .option('--filter <filter object>',
-    'filter by key value pair, passed straight to the crossref api')
+    'filter by key value pair, passed straight to the crossref api only')
   .parse(process.argv)
 
 if (!process.argv.slice(2).length) {
@@ -95,10 +83,17 @@ if (program.hasOwnProperty('logfile')) {
 
 // check arguments
 
-if (!program.query && !program.api==='crossref') {
+console.log(program.api)
+
+if (typeof program.query === "undefined" && program.api!=='crossref') {
   log.error('No query given. ' +
     'You must provide the --query argument.')
   process.exit(1)
+}
+
+if (program.filter && program.api!=='crossref') {
+  log.warn('Filter given but not using CrossRef api ' +
+    'so no filter applied.')
 }
 
 log.info('Searching using ' + program.api + ' API')
@@ -113,12 +108,6 @@ options.minedterms = program.minedterms
 options.all = program.all
 options.hitlimit = parseInt(program.limit)
 options.noexecute = program.noexecute
-options.filterFromIndexDate = program.filterFromIndexDate
-options.filterUntilIndexDate = program.filterUntilIndexDate
-options.filterFromPubDate = program.filterFromPubDate
-options.filterUntilPubDate = program.filterUntilPubDate
-options.filterUntilCreatedDate = program.filterUntilCreatedDate
-options.filterFromCreatedDate = program.filterFromCreatedDate
 options.filter = program.filter
 
 if (options.noexecute) {
